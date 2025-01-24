@@ -20,4 +20,8 @@ public class BlogService {
     }
 
 
+    public BlogInfo getBlogDetail(Integer blogId) {
+        BlogInfo blogInfo = blogInfoMapper.queryById(blogId);
+        return blogInfo;
+    }
 }
