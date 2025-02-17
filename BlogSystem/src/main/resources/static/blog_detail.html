@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>博客详情页</title>
-
+    <link rel="stylesheet" href="editormd/1 css/editormd.css" />
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/detail.css">
 
@@ -42,7 +42,7 @@
             <div class="content">
                 <div class="title"></div>
                 <div class="date"></div>
-                <div class="detail"></div>
+                <div class="detail" id="detail" style="background-color: transparent;">
             </div>
                 <div class="operating">
                     <button onclick="window.location.href='blog_update.html'">编辑</button>
@@ -61,7 +61,6 @@
     <script src="blog-editormd/editormd.js"></script>
     <script src="js/common.js"></script>
     <script>
-
         $.ajax({
             type:"get",
             url:`/blog/getBlogDetail${location.search}`,
@@ -70,9 +69,12 @@
                     var blog = res.data;
                     $(".title").text(blog.title);
                     $(".date").text(blog.createTime);
-                    $(".detail").text(blog.content);
+                    // $(".detail").text(blog.content);
+                    editormd.markdownToHTML("detail", {
+                            markdown: res.data.content,
+                        });
+                    }
                 }
-            }
         })
 
         console.log(location.search)
@@ -80,6 +82,7 @@
         //显示博客作者信息
         var userUrl = "/user/getAuthorInfo" + location.search;
         getUserInfo(userUrl);
+
 
         function deleteBlog() {
             alert("删除博客");

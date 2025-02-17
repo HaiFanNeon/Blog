@@ -24,4 +24,8 @@ public class BlogService {
         BlogInfo blogInfo = blogInfoMapper.queryById(blogId);
         return blogInfo;
     }
+
+    public void insertBlog(BlogInfo blogInfo) {
+        blogInfoMapper.insertBlog(blogInfo);
+    }
 }

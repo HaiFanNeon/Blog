@@ -37,50 +37,50 @@
             </div>
         </div>
         <div class="right">
-            <!-- <div class="blog">
-                <div class="title">我的第一篇博客</div>
-                <div class="date">2021-06-02</div>
-                <div class="desc">今天开始, 好好学习Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas nesciunt, hic voluptatum, dolorem quisquam modi accusantium, commodi dolores architecto ratione vel exercitationem optio. Facere repellendus autem, obcaecati dolore sequi incidunt?</div>
-                <a class="detail" href="blog_detail.html">查看全文&gt;&gt;</a>
-            </div>
-            <div class="blog">
-                <div class="title">我的第一篇博客</div>
-                <div class="date">2021-06-02</div>
-                <div class="desc">今天开始, 好好学习Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas nesciunt, hic voluptatum, dolorem quisquam modi accusantium, commodi dolores architecto ratione vel exercitationem optio. Facere repellendus autem, obcaecati dolore sequi incidunt?</div>
-                <a class="detail" href="blog_detail.html">查看全文&gt;&gt;</a>
-            </div> -->
         </div>
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/common.js"></script>
-
     <script>
 
+        // 调用获取博客列表的函数
         getBlogList();
         function getBlogList() {
             $.ajax({
                 url: "http://localhost:8080/blog/getList",
                 type: "GET",
+                beforeSend: function(xhr) {
+                    console.log("Request Headers:", xhr.headers); // 打印请求头
+                },
                 success: function(res) {
                     console.log(res);
                     if (res.code == 200 && res.data != null) {
                         let finalHtml = "";
                         for (let blog of res.data) {
                             finalHtml += `
-                                <div class="blog">
-                                    <div class="title">${blog.title}</div>
-                                    <div class="date">${blog.createTime}</div>
-                                    <div class="desc">${blog.content}</div>
-                                    <a class="detail" href="blog_detail.html?id=${blog.id}">查看全文&gt;&gt;</a>
-                                </div>
-                            `;
+                            <div class="blog">
+                                <div class="title">${blog.title}</div>
+                                <div class="date">${blog.createTime}</div>
+                                <div class="desc">${blog.content}</div>
+                                <a class="detail" href="blog_detail.html?id=${blog.id}">查看全文&gt;&gt;</a>
+                            </div>
+                        `;
                         }
                         $(".right").html(finalHtml);
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                    if (err != null && err.status == 401) {
+                        alert("用户未登录, 即将跳转到登录页!");
+                        location.href = "/blog_login.html";
                     }
                 }
             });
         }
-    </script>
 
+        getUserInfo();
+
+    </script>
 </body>
 </html>

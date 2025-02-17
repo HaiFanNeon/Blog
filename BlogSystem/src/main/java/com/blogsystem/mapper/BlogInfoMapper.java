@@ -13,7 +13,7 @@ public interface BlogInfoMapper {
      * 获取博客列表
      * @return
      */
-    @Select("select * from blog where delete_flag = 0")
+    @Select("select * from blog where delete_flag = 0 order by create_time desc")
     List<BlogInfo> queryBlogList();
 
 
