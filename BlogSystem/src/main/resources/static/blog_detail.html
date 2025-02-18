@@ -65,16 +65,27 @@
             type:"get",
             url:`/blog/getBlogDetail${location.search}`,
             success:function (res) {
-                if (res.code == 200 && res.data != null) {
-                    var blog = res.data;
-                    $(".title").text(blog.title);
-                    $(".date").text(blog.createTime);
-                    // $(".detail").text(blog.content);
-                    editormd.markdownToHTML("detail", {
-                            markdown: res.data.content,
-                        });
+                    if (res.code == 200 && res.data != null) {
+                        var blog = res.data;
+                        $(".title").text(blog.title);
+                        $(".date").text(blog.createTime);
+                        // $(".detail").text(blog.content);
+                        editormd.markdownToHTML("detail", {
+                                markdown: res.data.content,
+                            });
+
+                        console.log(res)
+                        // 是否显示删除和编辑按钮
+                        if (blog.loginUser) {
+                            let finalHtml = "";
+                            finalHtml += `<button onclick="window.location.href='blog_update.html?id=${blog.id}'">编辑</button>`;
+                            finalHtml += `<button onclick="deleteBlog(${blog.id})">删除</button>`;
+                            $(".operating").html(finalHtml);
+                        } else {
+                            console.log(456)
+                        }
                     }
-                }
+            }
         })
 
         console.log(location.search)
@@ -84,8 +95,19 @@
         getUserInfo(userUrl);
 
 
-        function deleteBlog() {
-            alert("删除博客");
+        function deleteBlog(){
+            $.ajax({
+                type:"post",
+                url:"/blog/delete"+location.search,
+                success:function(result){
+                    if(result!=null && result.code==200 && result.data){
+                        alert("删除成功, 即将跳转至博客列表页");
+                        location.href ="blog_list.html"
+                    }else{
+                        alert("删除失败");
+                    }
+                }
+            });
         }
     </script>
 </body>

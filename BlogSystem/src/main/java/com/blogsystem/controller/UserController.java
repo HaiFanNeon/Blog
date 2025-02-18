@@ -76,7 +76,4 @@ public class UserController {
         }
         return userService.getAuthorInfo(blogId);
     }
-
-
-
 }

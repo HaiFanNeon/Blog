@@ -30,8 +30,17 @@ public class BlogController {
     }
 
     @RequestMapping("/getBlogDetail")
-    public BlogInfo getBlogDetail(Integer id) {
-        return blogService.getBlogDetail(id);
+    public BlogInfo getBlogDetail(Integer id, HttpServletRequest request) {
+        BlogInfo blogInfo = blogService.getBlogDetail(id);
+
+        String token = request.getHeader("user_token");
+        Integer userId = (Integer) JwtUtil.parseJWT(token).get("id");
+        log.info(String.valueOf(userId));
+        if (userId != null && userId == blogInfo.getUserId()) {
+            blogInfo.setLoginUser(true);
+        }
+        log.info(blogInfo.toString());
+        return blogInfo;
     }
 
     @RequestMapping("/add")
@@ -46,6 +55,23 @@ public class BlogController {
         blogInfo.setTitle(title);
         blogInfo.setContent(content);
         blogService.insertBlog(blogInfo);
+        return true;
+    }
+
+    @RequestMapping("/update")
+    public Boolean updateBlog(Integer id, String title, String content) {
+        BlogInfo blogInfo = new BlogInfo();
+
+        blogInfo.setId(id);
+        blogInfo.setTitle(title);
+        blogInfo.setContent(content);
+        blogService.updateBlog(blogInfo);
+        return true;
+    }
+
+    @RequestMapping("/delete")
+    public Boolean deleteBlog(Integer blogId) {
+        blogService.deleteBlog(blogId);
         return true;
     }
 }

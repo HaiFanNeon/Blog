@@ -13,6 +13,22 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <aaa>dev</aaa>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <aaa>prod</aaa>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
 
 
@@ -76,6 +92,7 @@ preferred -->
         </dependencies>
     </dependencyManagement>
 
+
     <build>
         <plugins>
             <plugin>
@@ -106,6 +123,15 @@ preferred -->
                 </executions>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--开启过滤，用指定的参数替换directory下的文件中的参数-->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
     </build>
 
 </project>

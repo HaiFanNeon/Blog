@@ -16,6 +16,8 @@ public class BlogInfo {
     private Date createTime;
     private Date updateTime;
 
+    private boolean isLoginUser;
+
     public String getCreateTime() {
         return DateUtils.formatDate(createTime);
     }

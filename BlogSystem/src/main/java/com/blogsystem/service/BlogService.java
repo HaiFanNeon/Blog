@@ -28,4 +28,12 @@ public class BlogService {
     public void insertBlog(BlogInfo blogInfo) {
         blogInfoMapper.insertBlog(blogInfo);
     }
+
+    public Integer updateBlog(BlogInfo blogInfo) {
+        return blogInfoMapper.updateBlog(blogInfo);
+    }
+
+    public Integer deleteBlog(Integer blogId) {
+        return blogInfoMapper.deleteBlog(blogId);
+    }
 }

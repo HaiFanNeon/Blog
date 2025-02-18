@@ -46,7 +46,40 @@
                 path: "blog-editormd/lib/"
             });
         });
-        
+
+
+        getBlogInfo();
+        function getBlogInfo() {
+            $.ajax({
+                type: "get",
+                url: "/blog/getBlogDetail" + location.search,
+                success: function (result) {
+                    if (result != null && result.code == 200) {
+                        $("#title").val(result.data.title);
+                        $("#content").val(result.data.content);
+                        $("#blogId").val(result.data.id);
+                        // editormd("editor", {
+                        //     width: "100%",
+                        //     height: "550px",
+                        //     path: "blog-editormd/lib/",
+                        //     onload: function () {
+                        //         this.watch();
+                        //         this.setMarkdown(result.data.content);
+                        //     }
+                        // });
+                    }
+
+                },
+                error: function (err) {
+                    if (err != null && err.status == 401) {
+                        alert("用户未登录, 即将跳转到登录页!");
+//已经被拦截器拦截了, 未登录
+                        location.href = "/blog_login.html";
+                    }
+                }
+            })
+        }
+
         function submit() {
             $.ajax({
                 type: "post",
@@ -64,20 +97,14 @@
                         alert(result.msg);
                         return;
                     }
-
                 },
                 error: function (error) {
                     if (error != null && error.status == 401) {
                         alert("用户未登录, 登录后再进行对应操作");
                     }
                 }
-
             });
         }
-        function getBlogInfo() {
-            
-        }
-        getBlogInfo();
     </script>
 </body>
 

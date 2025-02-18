@@ -42,8 +42,9 @@ public class JwtUtilsTest {
 
     @Test
     public void parsedToken() {
-        JwtParser build = Jwts.parserBuilder().setSigningKey(key).build();
-        Claims body = build.parseClaimsJws(token).getBody();
-        System.out.println(body);
+        int a = 10;
+        int b = a;
+        b = 30;
+        System.out.println(a);
     }
 }
